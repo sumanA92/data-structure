@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Oct 28 01:35:16 2019
-
 @author: suman
 """
 
@@ -86,27 +85,57 @@ print("Sorted list : ", array)
 def quickSort(array, left, right):
     if left >= right:
         return
-    
-    index = partition(array, left, right)
-    quickSort(array, left, index)
-    quickSort(array, index+1, right)
+    try:
+        index = partition(array, left, right)
+        print(index, array)
+        quickSort(array, left, index-1)
+        quickSort(array, index, right)
+    except Exception as error:
+        print(error)
+
 
 def partition(array, left, right):
+     
+     mid = (left+right) // 2
+     mid_value = array[mid]
+     while left <= right:
+         if array[left] >= mid_value and array[right] <= mid_value:
+             array[left], array[right] = array[right], array[left]
+             left += 1
+             right -= 1
+         elif array[left] < mid_value:
+             left += 1
+         elif array[right] > mid_value:
+             right -= 1
+     return left
+
+
+def partition2(array, left, right):
     
     mid = (left+right) // 2
     mid_value = array[mid]
-    while left < right:
-        if array[left] > mid_value and array[right] < mid_value:
-            array[left], array[right] = array[right], array[left]
-            left += 1
-            right -= 1
-        elif array[left] <= mid_value:
-            left += 1
-        elif array[right] >= mid_value:
-            right -= 1
+    print(mid, mid_value , left, right)
+    try:
+        while left <= right:
+            #print(left ,right)
+            while array[left] < mid_value:
+                left += 1
+            
+            while array[right] > mid_value:
+                right -= 1
+                
+            if left <= right:
+                array[left], array[right] = array[right], array[left]
+                left += 1
+                right -= 1
+            print(left , right,"fasf")
+    except Exception as error:
+        #print(error)
+        pass
     return left
 
 array = randint(0, 50, 10)
+#array = [30, 25, 22, 29, 22, 44, 14,  0, 20, 35]
 print("Unsorted list : {}".format(array))
 quickSort(array, 0, len(array)-1)
-print("Sorted list : ", array)        
+print("Sorted list : ", array)
